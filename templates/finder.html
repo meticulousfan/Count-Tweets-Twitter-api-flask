@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% block app_content %}
+<h1>Spotify Trender Finder</h1>
+  <form action="/trend/finder" method="post" id="finder">
+    {% for field in form %}
+      {% if field.type == "CSRFTokenField" %}
+      <p>
+          {{ field }}
+      </p>
+      {% elif field.type == "SubmitField" %}
+        <p>
+            {{ field (class_="btn btn-primary")}}
+        </p>
+      {% elif field.type == "SelectField" %}
+        <div class="input-group">
+          <p>
+              {{ field.label }}</br>
+              <select class="form-select" aria-label="Default select example" name="{{ field.id }}" id="{{ field.id }}">
+                {% for value, label, _ in field.iter_choices() %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+              {% for error in field.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+              {% endfor %}
+          </p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </form>
+{% endblock %}
